@@ -13,7 +13,7 @@ Repository of InfiniteStack public packages
             "subtype": "geojson"
         },
         {
-            "key": "map",
+            "key": "points",
             "type": "file",
             "subtype": "json"
         }
