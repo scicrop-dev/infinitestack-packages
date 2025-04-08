@@ -34,7 +34,8 @@ Repository of InfiniteStack public packages
     "executor": "run_route-1-dijkistra.py",
     "icon": "route-1-dijkistra.png",
     "title": "Routing Algorithm 1 (Dijkstra)",
-    "description": "Routing algorithm that takes two input files: one GeoJSON file containing the roads and one JSON file with the array of starting and ending points for each route to be calculated."
+    "description": "Routing algorithm that takes two input files: one GeoJSON file containing the roads and one JSON file with the array of starting and ending points for each route to be calculated.",
+    "uuid": "e11f8feb-51cb-4fb8-8300-312bfa666fd4"
 }
 ```
 ## Workflow Example
@@ -70,4 +71,8 @@ Repository of InfiniteStack public packages
 		}
 	]
 }
+```
+## Projects example
+```json
+{"e11f8feb-51cb-4fb8-8300-312bfa666fd4":{"package_type": "route-1-dijkistra"}}
 ```

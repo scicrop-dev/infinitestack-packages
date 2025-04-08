@@ -29,5 +29,6 @@
     "executor": "run_route-1-dijkistra.py",
     "icon": "icon.svg",
     "title": "Routing Algorithm 1 (Dijkstra)",
-    "description": "Routing algorithm that takes two input files: one GeoJSON file containing the roads and one JSON file with the array of starting and ending points for each route to be calculated."
+    "description": "Routing algorithm that takes two input files: one GeoJSON file containing the roads and one JSON file with the array of starting and ending points for each route to be calculated.",
+    "uuid": ""
 }
