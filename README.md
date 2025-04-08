@@ -28,7 +28,12 @@ Repository of InfiniteStack public packages
             "subtype": "gpx"
         }
     ],
-    "mode": "inference"
+    "mode": "inference",
+    "executor_type": "python",
+    "executor": "run_route-1-dijkistra.py",
+    "icon": "route-1-dijkistra.png",
+    "title": "Routing Algorithm 1 (Dijkstra)",
+    "description": "Routing algorithm that takes two input files: one GeoJSON file containing the roads and one JSON file with the array of starting and ending points for each route to be calculated."
 }
 ```
 ## Workflow Example
