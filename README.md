@@ -20,14 +20,17 @@ Repository of InfiniteStack public packages
     ],
     "output": [
         {
-            "type": "file",
-            "subtype": "geojson"
+            "type": "geojson",
+            "required": "false",
+            "format": "file"
         },
         {
-            "type": "file",
-            "subtype": "gpx"
+            "type": "gpx",
+            "required": "false",
+            "format": "file"
         }
     ],
+    "quality_metrics": {},
     "mode": "inference",
     "executor_type": "python",
     "executor_version": "3.11",
@@ -65,7 +68,7 @@ Repository of InfiniteStack public packages
 		{
 			"id": "BLOCK-4",
 			"type": "Output",
-			"output_type": "Gpx",
+			"output_type": "gpx",
 			"file_name": "route",
 			"input": "._BLOCK-3"
 		}

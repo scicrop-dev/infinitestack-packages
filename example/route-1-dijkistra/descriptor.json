@@ -15,14 +15,17 @@
     ],
     "output": [
         {
-            "type": "file",
-            "subtype": "geojson"
+            "type": "geojson",
+            "required": "false",
+            "format": "file"
         },
         {
-            "type": "file",
-            "subtype": "gpx"
+            "type": "gpx",
+            "required": "false",
+            "format": "file"
         }
     ],
+    "quality_metrics": {},
     "mode": "inference",
     "executor_type": "python",
     "executor_version": "3.11",
