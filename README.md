@@ -79,3 +79,35 @@ Repository of InfiniteStack public packages
 ```json
 {"e11f8feb-51cb-4fb8-8300-312bfa666fd4":{"package_type": "route-1-dijkistra"}}
 ```
+
+## Run parameters example
+
+```json
+{
+  "port": 90000,
+  "input":  {
+              "map": "cd65f649-56cf-4968-a438-51f2ae87ab05",
+		      "points": "cd65f649-56cf-4968-a438-51f2ae87ab05"
+  },
+  "output": {
+              "output_type": "gpx",
+			  "file_name": "route"
+  }
+}
+```
+
+```bash
+python3 run_route-1-dijkistra.py 90000 &
+curl -X POST http://localhost:9000/input \
+     -H "Content-Type: application/json" \
+     -d '{
+       "input": {
+         "map": "cd65f649-56cf-4968-a438-51f2ae87ab05",
+         "points": "cd65f649-56cf-4968-a438-51f2ae87ab05"
+       },
+       "output": {
+         "output_type": "gpx",
+         "file_name": "route"
+       }
+     }'
+```
