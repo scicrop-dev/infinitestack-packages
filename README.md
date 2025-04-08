@@ -30,6 +30,7 @@ Repository of InfiniteStack public packages
     ],
     "mode": "inference",
     "executor_type": "python",
+    "executor_version": "3.11",
     "executor": "run_route-1-dijkistra.py",
     "icon": "route-1-dijkistra.png",
     "title": "Routing Algorithm 1 (Dijkstra)",
