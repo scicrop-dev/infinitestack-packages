@@ -1,0 +1,33 @@
+{
+    "type": "Package",
+    "package_type": "route-1-dijkistra",
+    "input": [
+        {
+            "key": "map",
+            "type": "file",
+            "subtype": "geojson"
+        },
+        {
+            "key": "points",
+            "type": "file",
+            "subtype": "json"
+        }
+    ],
+    "output": [
+        {
+            "type": "file",
+            "subtype": "geojson"
+        },
+        {
+            "type": "file",
+            "subtype": "gpx"
+        }
+    ],
+    "mode": "inference",
+    "executor_type": "python",
+    "executor_version": "3.11",
+    "executor": "run_route-1-dijkistra.py",
+    "icon": "route-1-dijkistra.png",
+    "title": "Routing Algorithm 1 (Dijkstra)",
+    "description": "Routing algorithm that takes two input files: one GeoJSON file containing the roads and one JSON file with the array of starting and ending points for each route to be calculated."
+}
