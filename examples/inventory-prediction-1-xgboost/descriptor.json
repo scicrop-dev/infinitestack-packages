@@ -1,0 +1,32 @@
+{
+    "type": "Package",
+    "package_type": "inventory-prediction-1-xgboost",
+    "input": [
+        {
+            "key": "train",
+            "type": "file",
+            "subtype": "json"
+        },
+        {
+            "key": "future",
+            "type": "file",
+            "subtype": "json"
+        }
+    ],
+    "output": [
+        {
+            "type": "xls",
+            "required": "false",
+            "format": "file"
+        }
+    ],
+    "quality_metrics": {"mae_v": 6.9202, "mae_t": 6.9021, "r_square_v": 89.35, "r_square_t": 89.34},
+    "mode": "train+inference",
+    "executor_type": "python",
+    "executor_version": "3.11",
+    "executor": "package.py",
+    "icon": "icon.png",
+    "title": "Inventory Prediction 1 (XgBoost)",
+    "description": "Inventory Prediction algorithm that takes two input files: one JSON file containing the training data and one JSON file with the array of starting and ending points for each route to be calculated.",
+    "uuid": ""
+}

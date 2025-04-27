@@ -34,7 +34,7 @@ Repository of InfiniteStack public packages
     "mode": "inference",
     "executor_type": "python",
     "executor_version": "3.11",
-    "executor": "run_route-1-dijkistra.py",
+    "executor": "package.py",
     "icon": "route-1-dijkistra.png",
     "title": "Routing Algorithm 1 (Dijkstra)",
     "description": "Routing algorithm that takes two input files: one GeoJSON file containing the roads and one JSON file with the array of starting and ending points for each route to be calculated.",
@@ -75,7 +75,8 @@ Repository of InfiniteStack public packages
 	]
 }
 ```
-## Projects example
+## Packages example
+The file packages.json must be inside `commons` folder.
 ```json
 {"e11f8feb-51cb-4fb8-8300-312bfa666fd4":{"package_type": "route-1-dijkistra"}}
 ```
@@ -86,24 +87,24 @@ Repository of InfiniteStack public packages
 {
   "port": 90000,
   "input":  {
-              "map": "cd65f649-56cf-4968-a438-51f2ae87ab05",
-		      "points": "cd65f649-56cf-4968-a438-51f2ae87ab05"
+              "map": "", 
+              "points": ""
   },
   "output": {
-              "output_type": "gpx",
-			  "file_name": "route"
+              "output_type": "gpx", 
+              "file_name": "route"
   }
 }
 ```
-
+Local test, without InfiniteStack
 ```bash
-python3 run_route-1-dijkistra.py 90000 &
+python3 package.py 90000 &
 curl -X POST http://localhost:9000/input \
      -H "Content-Type: application/json" \
      -d '{
        "input": {
-         "map": "cd65f649-56cf-4968-a438-51f2ae87ab05",
-         "points": "cd65f649-56cf-4968-a438-51f2ae87ab05"
+         "map": "",
+         "points": ""
        },
        "output": {
          "output_type": "gpx",

@@ -1,7 +1,0 @@
-osmnx
-shapely
-geopandas
-networkx
-pyproj
-folium
-geopy
