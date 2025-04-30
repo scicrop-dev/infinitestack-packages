@@ -11,6 +11,16 @@
             "key": "future",
             "type": "file",
             "subtype": "json"
+        },
+        {
+            "key": "weather",
+            "type": "file",
+            "subtype": "json"
+        },
+        {
+            "key": "lead_time",
+            "type": "file",
+            "subtype": "json"
         }
     ],
     "output": [
