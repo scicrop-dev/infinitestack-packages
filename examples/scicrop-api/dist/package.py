@@ -11,19 +11,26 @@ def process_data(lat, lon):
     # print("FORECAST", scicrop_api.get_weather_forecast(lat, lon))
 
 
-def main(workflow_id, project_name):
+def get_database_id_from_package(project_name):
+    bridge = collect.Bridge(project_name)
+    database_ids = bridge.get_database_ids_from_package("scicrop-api")
+    print("database_id's = ", database_ids)
+    return database_ids
 
+
+def main(workflow_id, project_name):
     bridge = collect.Bridge(project_name)
     project_id = bridge.project_id
 
-    filePath = Path(f'/tmp/is/{workflow_id}.json')
+    database_ids = get_database_id_from_package(project_name)
 
-    if not filePath.exists():
+    file_path = Path(f'/tmp/is/{workflow_id}.json')
+
+    if not file_path.exists():
         print('File not found')
         exit(1)
     try:
-        with open(filePath, 'r') as f:
-
+        with open(file_path, 'r') as f:
             data = json.load(f)
             lat = float(data["lat"])
             lon = float(data["lon"])
@@ -37,7 +44,6 @@ def main(workflow_id, project_name):
 
 
 if __name__ == "__main__":
-
     parser = argparse.ArgumentParser()
     parser.add_argument('--workflow_id', type=str, required=True)
     parser.add_argument('--project_name', type=str, required=True)
@@ -45,6 +51,5 @@ if __name__ == "__main__":
 
     workflow_id = args.workflow_id
     project_name = args.project_name
-
 
     main(workflow_id, project_name)
