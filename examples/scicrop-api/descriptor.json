@@ -60,7 +60,7 @@
               "column_type": "float"
             },
             {
-              "name": "sea-level",
+              "name": "sea_level",
               "column_type": "float"
             },
             {

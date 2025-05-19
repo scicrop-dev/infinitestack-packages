@@ -1,4 +1,3 @@
-import sys
 import argparse
 import json
 from pathlib import Path
@@ -6,28 +5,15 @@ from infinitestack import scicrop_api
 from infinitestack import collect
 
 
-def process_data(lat, lon):
-    print("LIVE", scicrop_api.get_weather_data(lat, lon))
-    # print("FORECAST", scicrop_api.get_weather_forecast(lat, lon))
+def process_response_data(lat, lon):
+    return scicrop_api.get_weather_data(lat, lon)
 
 
-def get_database_id_from_package(project_name):
-    bridge = collect.Bridge(project_name)
-    database_ids = bridge.get_database_ids_from_package("scicrop-api")
-    print("database_id's = ", database_ids)
-    return database_ids
-
-
-def main(workflow_id, project_name):
-    bridge = collect.Bridge(project_name)
-    project_id = bridge.project_id
-
-    database_ids = get_database_id_from_package(project_name)
-
+def process_request_data():
     file_path = Path(f'/tmp/is/{workflow_id}.json')
 
     if not file_path.exists():
-        print('File not found')
+        print(f'File {file_path} file found')
         exit(1)
     try:
         with open(file_path, 'r') as f:
@@ -39,8 +25,43 @@ def main(workflow_id, project_name):
         print("Expected format: '{\"lat\": value, \"lon\": value}'")
         exit(1)
 
-    print(f"Parsed lat: {lat}, lon: {lon}")
-    process_data(lat, lon)
+    return lat, lon
+
+
+def build_request(lat, lon):
+    with open("descriptor.json", "r") as file:
+        package_json = json.load(file)
+
+    json_response = process_response_data(lat, lon)
+    print('Response = ', json_response)
+    request_data = []
+    for data in package_json["output"][0]["tables"]:
+        table_name = data["table_name"]
+        column_array = data["columns"]
+
+        row = {}
+        for col in column_array:
+            print("col name", col["name"])
+            name = col["name"]
+            row[name] = json_response["data"].get(name)
+
+        request_data.append({"table_name": table_name, "fields": [row]})
+
+    print("Request = ", json.dumps(request_data, indent=2))
+
+
+def get_database_id_from_package(project_name):
+    bridge = collect.Bridge(project_name)
+    return bridge.get_database_ids_from_package("scicrop-api")
+
+
+def main(workflow_id, project_name):
+    bridge = collect.Bridge(project_name)
+    project_id = bridge.project_id
+    database_ids = get_database_id_from_package(project_name)
+
+    lat, lon = process_request_data()
+    build_request(lat, lon)
 
 
 if __name__ == "__main__":
