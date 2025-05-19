@@ -2,6 +2,7 @@ import argparse
 import json
 from pathlib import Path
 from infinitestack import scicrop_api
+from infinitestack import orm
 from infinitestack import collect
 
 
@@ -29,25 +30,33 @@ def process_request_data():
 
 
 def build_request(lat, lon):
-    with open("descriptor.json", "r") as file:
+    with open(
+            "/opt/infinitestack/etc/commons/packages/98e1e23e-e56a-413f-be8c-363db66fc2fb/descriptor.json",
+            "r") as file:
         package_json = json.load(file)
 
     json_response = process_response_data(lat, lon)
-    print('Response = ', json_response)
-    request_data = []
+    tables_list = []
+
     for data in package_json["output"][0]["tables"]:
         table_name = data["table_name"]
         column_array = data["columns"]
 
         row = {}
         for col in column_array:
-            print("col name", col["name"])
             name = col["name"]
             row[name] = json_response["data"].get(name)
 
-        request_data.append({"table_name": table_name, "fields": [row]})
+        tables_list.append({"table_name": table_name, "fields": [row]})
 
-    print("Request = ", json.dumps(request_data, indent=2))
+    request_data = {"tables": tables_list}
+    return request_data
+
+
+def save_database(lat, lon, database_name, project_name):
+    my_orm = orm.Orm(database_name)
+    my_orm.set_project(project_name)
+    my_orm.insert_data_json(build_request(lat, lon))
 
 
 def get_database_id_from_package(project_name):
@@ -61,7 +70,9 @@ def main(workflow_id, project_name):
     database_ids = get_database_id_from_package(project_name)
 
     lat, lon = process_request_data()
-    build_request(lat, lon)
+    request = build_request(lat, lon)
+    #TODO: get the database name from the id
+    save_database(lat, lon, ..., project_name)
 
 
 if __name__ == "__main__":
