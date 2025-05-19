@@ -1,0 +1,98 @@
+{
+  "package_name": "scicrop-api",
+  "title": "Scicrop API",
+  "schema": "public",
+  "input": [
+    {
+      "key": "lat",
+      "type": "file",
+      "subtype": "json"
+    },
+    {
+      "key": "long",
+      "type": "file",
+      "subtype": "json"
+    }
+  ],
+  "output": [
+    {
+      "type": "database",
+      "required": "true",
+      "format": "database",
+      "tables": [
+        {
+          "table_name": "tbFarm",
+          "columns": [
+            {
+              "name": "rain",
+              "column_type": "float"
+            },
+            {
+              "name": "temp",
+              "column_type": "float"
+            },
+            {
+              "name": "humidity",
+              "column_type": "float"
+            },
+            {
+              "name": "wind_speed",
+              "column_type": "float"
+            },
+            {
+              "name": "wind_deg",
+              "column_type": "float"
+            },
+            {
+              "name": "pressure",
+              "column_type": "float"
+            },
+            {
+              "name": "temp_max",
+              "column_type": "float"
+            },
+            {
+              "name": "temp_min",
+              "column_type": "float"
+            },
+            {
+              "name": "grnd_level",
+              "column_type": "float"
+            },
+            {
+              "name": "sea-level",
+              "column_type": "float"
+            },
+            {
+              "name": "wind_gust",
+              "column_type": "float"
+            },
+            {
+              "name": "clouds",
+              "column_type": "float"
+            },
+            {
+              "name": "visibility",
+              "column_type": "float"
+            },
+            {
+              "name": "weather_current",
+              "column_type": "string"
+            },
+            {
+              "name": "weather_description",
+              "column_type": "string"
+            }
+          ]
+        }
+      ]
+    }
+  ],
+  "quality_metrics": {},
+  "mode": "inference",
+  "executor_type": "python",
+  "executor_version": "3.11",
+  "executor": "package.py",
+  "icon": "",
+  "description": "Scicrop API endpoints"
+}
