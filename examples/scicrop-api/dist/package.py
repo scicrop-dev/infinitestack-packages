@@ -4,13 +4,14 @@ from pathlib import Path
 from infinitestack import scicrop_api
 from infinitestack import orm
 from infinitestack import collect
+from infinitestack import package_wrapper
 
 
 def process_response_data(lat, lon):
     return scicrop_api.get_weather_data(lat, lon)
 
 
-def process_request_data():
+def process_request_data(workflow_id):
     file_path = Path(f'/tmp/is/{workflow_id}.json')
 
     if not file_path.exists():
@@ -30,49 +31,28 @@ def process_request_data():
 
 
 def build_request(lat, lon):
-    with open(
-            "/opt/infinitestack/etc/commons/packages/98e1e23e-e56a-413f-be8c-363db66fc2fb/descriptor.json",
-            "r") as file:
-        package_json = json.load(file)
 
     json_response = process_response_data(lat, lon)
-    tables_list = []
-
-    for data in package_json["output"][0]["tables"]:
-        table_name = data["table_name"]
-        column_array = data["columns"]
-
-        row = {}
-        for col in column_array:
-            name = col["name"]
-            row[name] = json_response["data"].get(name)
-
-        tables_list.append({"table_name": table_name, "fields": [row]})
-
-    request_data = {"tables": tables_list}
-    return request_data
+    request = package_wrapper.build_request("scicrop-api", json_response)
+    print(f"request {request}")
+    return request
 
 
-def save_database(lat, lon, database_name, project_name):
-    my_orm = orm.Orm(database_name)
-    my_orm.set_project(project_name)
-    my_orm.insert_data_json(build_request(lat, lon))
+def save_database(lat, lon, database_names, project_name):
+    for database in database_names:
+        my_orm = orm.Orm(database)
+        my_orm.set_project(project_name)
+        my_orm.insert_data_json(build_request(lat, lon))
 
 
-def get_database_id_from_package(project_name):
-    bridge = collect.Bridge(project_name)
-    return bridge.get_database_ids_from_package("scicrop-api")
+def get_database_names_from_package():
+    return package_wrapper.get_database_names_from_package("scicrop-api")
 
 
 def main(workflow_id, project_name):
-    bridge = collect.Bridge(project_name)
-    project_id = bridge.project_id
-    database_ids = get_database_id_from_package(project_name)
-
-    lat, lon = process_request_data()
-    request = build_request(lat, lon)
-    #TODO: get the database name from the id
-    save_database(lat, lon, ..., project_name)
+    database_names = get_database_names_from_package()
+    lat, lon = process_request_data(workflow_id)
+    save_database(lat, lon, database_names, project_name)
 
 
 if __name__ == "__main__":

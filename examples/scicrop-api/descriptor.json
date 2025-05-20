@@ -17,11 +17,12 @@
   "output": [
     {
       "type": "database",
+      "database_name": "teste",
       "required": "true",
       "format": "database",
       "tables": [
         {
-          "table_name": "tbFarm",
+          "table_name": "ScicropApi V1",
           "columns": [
             {
               "name": "rain",
