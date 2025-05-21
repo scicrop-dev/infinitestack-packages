@@ -30,7 +30,7 @@ def process_request_data(workflow_id):
 
 def build_request(data):
     json_response = process_response_data(data)
-    request = package_wrapper.build_request("scicrop-api", json_response)
+    request = package_wrapper.build_requests("scicrop-api", json_response)
     print(f"request {request}")
     return request
 
