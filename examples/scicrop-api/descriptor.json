@@ -59,7 +59,12 @@
             {
               "name": "grnd_level",
               "column_type": "float"
-            },
+            }
+          ]
+        },
+        {
+          "table_name": "ScicropApi V2",
+          "columns": [
             {
               "name": "sea_level",
               "column_type": "float"
