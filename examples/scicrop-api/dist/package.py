@@ -27,28 +27,96 @@ def process_request_data(workflow_id):
                 raise ValueError("No features found in GeoJSON")
 
             data_list = []
-            for feature in features:
-                coords = feature.get('geometry', {}).get('coordinates', [])
-                if len(coords) != 2:
-                    raise ValueError(
-                        f"Invalid coordinates in feature: {feature}")
 
-                lon, lat = coords
-                data_list.append({'lat': str(lat), 'lon': str(lon)})
+            for feature in features:
+                geometry = feature.get('geometry')
+                properties = feature.get('properties', {})
+                label = properties.get('label')
+
+                if not label:
+                    raise ValueError(
+                        f"Missing 'label' in properties: {feature}")
+
+                if not geometry:
+                    raise ValueError(f"Missing geometry in feature: {feature}")
+
+                geom_type = geometry.get('type')
+                coordinates = geometry.get('coordinates')
+
+                if not geom_type or coordinates is None:
+                    raise ValueError(f"Invalid geometry in feature: {feature}")
+
+                if geom_type == 'Point':
+                    lon, lat = coordinates
+                    data_list.append({
+                        'lat': str(lat),
+                        'lon': str(lon),
+                        'label': label
+                    })
+
+                elif geom_type == 'LineString':
+                    for coord in coordinates:
+                        lon, lat = coord
+                        data_list.append({
+                            'lat': str(lat),
+                            'lon': str(lon),
+                            'label': label
+                        })
+
+                elif geom_type == 'Polygon':
+                    for ring in coordinates:
+                        for coord in ring:
+                            lon, lat = coord
+                            data_list.append({
+                                'lat': str(lat),
+                                'lon': str(lon),
+                                'label': label
+                            })
+
+                elif geom_type == 'MultiPoint':
+                    for coord in coordinates:
+                        lon, lat = coord
+                        data_list.append({
+                            'lat': str(lat),
+                            'lon': str(lon),
+                            'label': label
+                        })
+
+                elif geom_type == 'MultiLineString':
+                    for line in coordinates:
+                        for coord in line:
+                            lon, lat = coord
+                            data_list.append({
+                                'lat': str(lat),
+                                'lon': str(lon),
+                                'label': label
+                            })
+
+                elif geom_type == 'MultiPolygon':
+                    for polygon in coordinates:
+                        for ring in polygon:
+                            for coord in ring:
+                                lon, lat = coord
+                                data_list.append({
+                                    'lat': str(lat),
+                                    'lon': str(lon),
+                                    'label': label
+                                })
+
+                else:
+                    raise ValueError(f"Unsupported geometry type: {geom_type}")
 
             return data_list
 
-    except (json.JSONDecodeError, KeyError, ValueError) as e:
-        print(f"Invalid input format: {e}")
-        print(
-            "Expected GeoJSON format with features containing Point coordinates"
-        )
+    except Exception as e:
+        print(f"Error processing file: {e}")
         exit(1)
 
 
 def build_request(data):
     json_response = process_response_data(data)
-    request = package_wrapper.build_requests("scicrop-api", json_response)
+    request = package_wrapper.build_requests(
+        "scicrop-api", json_response, extra_fields={"label": data["label"]})
     return request
 
 
