@@ -1,0 +1,21 @@
+{
+  "package_name": "nessus-api",
+  "title": "Nessus API Integration",
+  "schema": "public",
+  "input": [
+    {
+      "key": "nessus_config",
+      "type": "file",
+      "subtype": "json",
+      "description": "Arquivo JSON contendo 'url', 'accessKey' e 'secretKey'"
+    }
+  ],
+  "output": [],
+  "quality_metrics": {},
+  "mode": "inference",
+  "executor_type": "python",
+  "executor_version": "3.11",
+  "executor": "package.py",
+  "icon": "",
+  "description": "Consulta a API do Nessus, coleta e exibe vulnerabilidades por host a partir de um arquivo JSON de configuração."
+}
